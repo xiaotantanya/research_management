@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.management.project.library.mapper.PaperMapper">
+
+    <insert id="add" parameterType="xyz.management.project.library.entity.ResearchItem">
+        INSERT INTO paper (
+            id,
+            journal_or_conference_name,
+            is_sci,
+            is_ei,
+            ccf_rating,
+            jcr_rating,
+            publication_data
+        ) VALUES (
+            #{id},
+            #{journalOrConferenceName},
+            #{isSCI},
+            #{isEI},
+            #{ccfRating},
+            #{jcrRating},
+            #{publicationDate}
+        )
+    </insert>
+
+    <select id="get" parameterType="xyz.management.project.library.entity.Paper">
+        SELECT * FROM paper
+        <where>
+            id IN
+            <foreach collection="idList" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

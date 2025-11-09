@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.management.project.library.mapper.ResearchItemMapper">
+
+    <insert id="add" parameterType="xyz.management.project.library.entity.ResearchItem">
+        INSERT INTO research_item (
+            id, name, type, list_order, homepage_file_id, fulltext_file_id
+        ) VALUES (
+            #{id}, #{name}, #{type}, #{listOrder}, #{homepageFile.id}, #{fulltextFile.id}
+        )
+    </insert>
+
+    <select id="selectByCondition" parameterType="xyz.management.project.library.dto.ResearchItemQueryDTO" resultMap="IdGroupResultMap">
+        SELECT 
+            ri.type, 
+            GROUP_CONCAT(ri.id ORDER BY ri.list_order ASC SEPARATOR ',') AS id_str
+        FROM 
+            research_item ri
+        WHERE 
+            1=1
+        <if test="searchQuery != null and searchQuery.trim() != ''">
+            AND ri.name LIKE CONCAT('%', #{serachQuery}, '%')
+        </if>
+        <if test="type != null and type.trim() != ''">
+            AND ri.type = #{type}
+        </if>
+        GROUP BY 
+            ri.type
+    </select>
+
+    <resultMap id="IdGroupResultMap" type="xyz.management.project.library.vo.ResearchItemGroupVO">
+        
+        <id property="type" 
+            column="type" 
+            typeHandler="xyz.management.project.library.handler.ItemTypeHandler"/>
+        
+        <collection property="ids" javaType="java.util.List" ofType="java.lang.String">
+            <result column="id_str"/>
+        </collection>
+        
+    </resultMap>
+
+    <select id="get" parameterType="xyz.management.project.library.entity.ResearchItem">
+        SELECT * FROM research_item
+        <where>
+            id IN
+            <foreach collection="idList" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

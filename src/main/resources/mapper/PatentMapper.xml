@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.management.project.library.mapper.PatentMapper">
+
+    <insert id="add" parameterType="xyz.management.project.library.entity.ResearchItem">
+        INSERT INTO patent (
+            id,
+            application_number,
+            authorization_number,
+            application_date,
+            authorization_date
+        ) VALUES (
+            #{id},
+            #{applicationNumber},
+            #{authorizationNumber},
+            #{applicationDate},
+            #{authorizationDate}
+        )
+    </insert>
+
+    <select id="get" parameterType="xyz.management.project.library.entity.Patent">
+        SELECT * FROM patent
+        <where>
+            id IN
+            <foreach collection="idList" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>
