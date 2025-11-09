@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.management.project.library.mapper.ArrivalMapper">
+    <select id="get" parameterType="java.util.List" resultType="xyz.management.project.library.entity.Arrival">
+        select * from arrival where project_id in 
+        <foreach collection="list" item="projectId" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </select>
+
+    <insert id="add" parameterType="java.util.List">
+        insert into arrival (
+            id, project_id, arrival_time, arrival_amount
+        ) values 
+        <foreach collection="list" item="arrival" separator=",">
+            (
+                #{arrival.id},
+                #{arrival.projectId},
+                #{arrival.arrivalTime},
+                #{arrival.arrivalAmount}
+            )
+        </foreach>
+        
+    </insert>
+    
+    <delete id="delete" parameterType="java.util.List">
+        delete from arrival where id in
+        <foreach collection="list" item="arrival" open="(" separator="," close=")">
+            #{arrival.id}
+        </foreach>
+    </delete>
+
+</mapper>

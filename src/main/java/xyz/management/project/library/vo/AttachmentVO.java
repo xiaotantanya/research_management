@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AttachmentVO {
     private String id;
-    private String fileName;
+    private String name;
 }

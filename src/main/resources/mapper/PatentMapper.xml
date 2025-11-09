@@ -4,30 +4,31 @@
 
 <mapper namespace="xyz.management.project.library.mapper.PatentMapper">
 
-    <insert id="add" parameterType="xyz.management.project.library.entity.ResearchItem">
-        INSERT INTO patent (
-            id,
-            application_number,
-            authorization_number,
-            application_date,
-            authorization_date
-        ) VALUES (
-            #{id},
-            #{applicationNumber},
-            #{authorizationNumber},
-            #{applicationDate},
-            #{authorizationDate}
-        )
-    </insert>
-
-    <select id="get" parameterType="xyz.management.project.library.entity.Patent">
-        SELECT * FROM patent
-        <where>
-            id IN
-            <foreach collection="idList" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-        </where>
+    <select id="get" parameterType="java.util.List" resultType="xyz.management.project.library.entity.Patent">
+        select * from patent where id in 
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
+
+    <insert id="add" parameterType="java.util.List">
+        insert into patent (
+            id, application_date, authorization_date
+        ) values 
+        <foreach collection="list" item="patent" separator=",">
+            (
+                #{patent.id},
+                #{patent.applicationDate},
+                #{patent.authorizationDate}
+            )
+        </foreach>
+    </insert>
+    
+    <delete id="delete" parameterType="java.util.List">
+        delete from patent where id in
+        <foreach collection="list" item="patent" open="(" separator="," close=")">
+            #{patent.id}
+        </foreach>
+    </delete>
 
 </mapper>

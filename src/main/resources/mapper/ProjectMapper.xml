@@ -4,42 +4,38 @@
 
 <mapper namespace="xyz.management.project.library.mapper.ProjectMapper">
 
-    <insert id="add" parameterType="xyz.management.project.library.entity.ResearchItem">
-        INSERT INTO project (
-            id,
-            project_type, 
-            amount, 
-            start_date, 
-            end_date, 
-            project_id_str, 
-            approval_number, 
-            funding_card_number, 
-            project_category, 
-            project_sub_category, 
-            person_in_charge
-        ) VALUES (
-            #{id},
-            #{projectType.name()},
-            #{amount},
-            #{startDate},
-            #{endDate},
-            #{projectIdStr},
-            #{approvalNumber},
-            #{fundingCardNumber},
-            #{projectCategory},
-            #{projectSubCategory},
-            #{personInCharge}
-        )
-    </insert>
-
-    <select id="get" parameterType="xyz.management.project.library.entity.Project">
-        SELECT * FROM project
-        <where>
-            id IN
-            <foreach collection="idList" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-        </where>
+    <select id="get" parameterType="java.util.List" resultType="xyz.management.project.library.entity.Project">
+        select * from project where id in 
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
+
+    <insert id="add" parameterType="java.util.List">
+        insert into project (
+            id, project_type, amount, start_date, end_date, project_id, approval_number, card_number, project_category, funding_person
+        ) values 
+            <foreach collection="list" item="project" separator=",">
+                (
+                    #{project.id},
+                    #{project.projectType},
+                    #{project.amount},
+                    #{project.starDate},
+                    #{project.endDate},
+                    #{project.projectId},
+                    #{project.approvalNumber},
+                    #{project.cardNumber},
+                    #{project.projectCategory},
+                    #{project.fundingPerson}
+                )
+            </foreach>
+    </insert>
+    
+    <delete id="delete" parameterType="java.util.List">
+        delete from project where id in
+        <foreach collection="list" item="project" open="(" separator="," close=")">
+            #{project.id}
+        </foreach>
+    </delete>
 
 </mapper>

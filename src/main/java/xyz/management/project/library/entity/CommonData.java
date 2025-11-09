@@ -1,4 +1,4 @@
-package xyz.management.project.library.new_entity;
+package xyz.management.project.library.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

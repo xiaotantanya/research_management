@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
+import xyz.management.project.library.entity.Arrival;
 import xyz.management.project.library.entity.Attachment;
-import xyz.management.project.library.entity.PaymentRecord;
 import xyz.management.project.library.enumUtil.ItemType;
 import xyz.management.project.library.enumUtil.ProjectType;
 
@@ -30,7 +30,7 @@ public class ResearchItemDTO {
     private BigDecimal amount;
     private LocalDate startDate;
     private LocalDate endDate;
-    private List<PaymentRecord> paymentRecords;
+    private List<Arrival> arrivals;
     private String projectIdStr; // (!! 注意: 前端字段名是 projectId, 后端模型是 projectIdStr !!)
     private String approvalNumber;
     private String fundingCardNumber;

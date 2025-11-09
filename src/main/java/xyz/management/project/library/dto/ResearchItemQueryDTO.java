@@ -12,5 +12,4 @@ public class ResearchItemQueryDTO implements Serializable {
     private String projectType;    // 项目类型筛选
     private String startDate;      // 开始日期
     private String endDate;        // 结束日期
-  
 }

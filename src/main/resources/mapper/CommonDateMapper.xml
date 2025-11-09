@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.management.project.library.mapper.CommonDataMapper">
+
+    <select id="get" parameterType="java.util.List" resultType="xyz.management.project.library.entity.Attachment">
+        select * from attachment where id in 
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="add" parameterType="java.util.List">
+        insert into common_data (
+            id, name, type, home_file_id, fulltext_file_id
+        ) values 
+        <foreach collection="list" item="commonData" separator=",">
+            (
+                #{commonData.id},
+                #{commonData.name},
+                #{commonData.type},
+                #{commonData.homeFileId},
+                #{commonData.fulltextFileId}
+            )
+        </foreach>
+        
+    </insert>
+    
+    <delete id="delete" parameterType="java.util.List">
+        delete from common_data where id in
+        <foreach collection="list" item="commonData" open="(" separator="," close=")">
+            #{commonData.id}
+        </foreach>
+    </delete>
+</mapper>

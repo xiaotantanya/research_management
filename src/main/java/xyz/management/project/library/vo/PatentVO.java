@@ -1,4 +1,4 @@
-package xyz.management.project.library.new_vo;
+package xyz.management.project.library.vo;
 
 import java.time.LocalDate;
 

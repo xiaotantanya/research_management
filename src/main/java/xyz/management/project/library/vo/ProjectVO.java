@@ -1,4 +1,4 @@
-package xyz.management.project.library.new_vo;
+package xyz.management.project.library.vo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import xyz.management.project.library.entity.PaymentRecord;
+import xyz.management.project.library.entity.Arrival;
 import xyz.management.project.library.enumUtil.ProjectType;
 
 @Data
@@ -43,5 +43,5 @@ public class ProjectVO extends ResearchItem {
     // (!! 核心 !!) 一对多到账记录
     // Mybatis 将使用 project.id 
     // 去查询 payment_record.project_id
-    private List<PaymentRecord> paymentRecords = new ArrayList<>();
+    private List<Arrival> arrivals = new ArrayList<>();
 }

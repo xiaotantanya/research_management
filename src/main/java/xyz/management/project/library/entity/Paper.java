@@ -2,28 +2,19 @@ package xyz.management.project.library.entity;
 
 import java.time.LocalDate;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Paper extends ResearchItem {
-
-    // (!! 来自图片 "期刊/会议名称"
-    private String journalOrConferenceName;
-
-    // (!! 来自图片 "是否是SCI"
-    private boolean isSCI;
-
-    // (!! 来自图片 "是否是EI"
-    private boolean isEI;
-
-    // (!! 来自图片 "CCF"
-    private String ccfRating; // e.g., "A", "B", "C"
-
-    // (!! 来自图片 "JCR"
-    private String jcrRating; // e.g., "Q1", "Q2"
-
-    // (!! 核心 !!) (为支持日期筛选而必需)
-    private LocalDate publicationDate;
+@AllArgsConstructor
+@NoArgsConstructor
+public class Paper {
+    private String id;
+    private String publicateLocation;
+    private boolean sci;
+    private boolean ei;
+    private String ccf;
+    private String jcr;
+    private LocalDate publicateDate;
 }

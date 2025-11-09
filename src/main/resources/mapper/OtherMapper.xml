@@ -3,24 +3,33 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="xyz.management.project.library.mapper.OtherMapper">
-    <insert id="add" parameterType="xyz.management.project.library.entity.OtherItem">
-        INSERT INTO other_item (
-            id,
-            notes
-        ) VALUES (
-            #{id},
-            #{notes}
-        )
-    </insert>
-
-    <select id="get" parameterType="xyz.management.project.library.entity.OtherItem">
-        SELECT * FROM other_item
-        <where>
-            id IN
-            <foreach collection="idList" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-        </where>
+    <select id="get" parameterType="java.util.List" resultType="xyz.management.project.library.entity.Other">
+        select * from other where id in 
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
+
+    <insert id="add" parameterType="java.util.List">
+        insert into other (
+            id, notes
+        ) values 
+        <foreach collection="list" item="other" separator=",">
+            (
+                #{other.id},
+                #{other.notes}
+            )
+        </foreach>
+        
+    </insert>
+    
+    <delete id="delete" parameterType="java.util.List">
+        delete from other where id in
+        <foreach collection="list" item="other" open="(" separator="," close=")">
+            #{other.id}
+        </foreach>
+    </delete>
+
+
 
 </mapper>

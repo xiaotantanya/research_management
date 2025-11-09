@@ -4,34 +4,36 @@
 
 <mapper namespace="xyz.management.project.library.mapper.PaperMapper">
 
-    <insert id="add" parameterType="xyz.management.project.library.entity.ResearchItem">
-        INSERT INTO paper (
-            id,
-            journal_or_conference_name,
-            is_sci,
-            is_ei,
-            ccf_rating,
-            jcr_rating,
-            publication_data
-        ) VALUES (
-            #{id},
-            #{journalOrConferenceName},
-            #{isSCI},
-            #{isEI},
-            #{ccfRating},
-            #{jcrRating},
-            #{publicationDate}
-        )
-    </insert>
-
-    <select id="get" parameterType="xyz.management.project.library.entity.Paper">
-        SELECT * FROM paper
-        <where>
-            id IN
-            <foreach collection="idList" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-        </where>
+    <select id="get" parameterType="java.util.List" resultType="xyz.management.project.library.entity.Paper">
+        select * from paper where id in 
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
+
+    <insert id="add" parameterType="java.util.List">
+        insert into paper (
+            id, publicate_location, sci, ei, ccf, jcr, publicate_date
+        ) values 
+        <foreach collection="list" item="paper" separator=",">
+            (
+                #{paper.id},
+                #{paper.publicateLocation},
+                #{paper.sci},
+                #{paper.ei},
+                #{paper.ccf},
+                #{paper.jcr},
+                #{paper.publicateDate}
+            )
+        </foreach>
+        
+    </insert>
+    
+    <delete id="delete" parameterType="java.util.List">
+        delete from paper where id in
+        <foreach collection="list" item="paper" open="(" separator="," close=")">
+            #{paper.id}
+        </foreach>
+    </delete>
 
 </mapper>
